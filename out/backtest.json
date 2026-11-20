@@ -1,0 +1,17 @@
+{
+ "eligible": 3335,
+ "became_poor_by_2020": 27,
+ "trend_model": {
+  "flagged": 85,
+  "correct": 12,
+  "precision": 0.141,
+  "recall": 0.444
+ },
+ "condition_only_baseline": {
+  "flagged": 85,
+  "correct": 12,
+  "precision": 0.141,
+  "recall": 0.444
+ },
+ "mae_bci_2020": 2.01
+}

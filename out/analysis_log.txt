@@ -1,0 +1,267 @@
+{
+ "n_structures": 5053,
+ "n_with_bci": 4983,
+ "data_conflicts": [
+  {
+   "ID": "03X-0003/B0",
+   "STRUCTURE NAME": "MISSISSIPPI RIVER BRIDGE",
+   "HIGHWAY NAME": "17",
+   "YEAR BUILT": 2019.0,
+   "BCI": 46.1
+  },
+  {
+   "ID": "03X-0265/B1",
+   "STRUCTURE NAME": "RAMSAY CK. E.B.L.",
+   "HIGHWAY NAME": "417",
+   "YEAR BUILT": 2018.0,
+   "BCI": 64.38
+  },
+  {
+   "ID": "07X-0014/B0",
+   "STRUCTURE NAME": "SALMON R. BR. AT ARDEN",
+   "HIGHWAY NAME": "7",
+   "YEAR BUILT": 2016.0,
+   "BCI": 57.9
+  },
+  {
+   "ID": "07X-0070/B1",
+   "STRUCTURE NAME": "CATARAQUI RIVER BRIDGE - EBL",
+   "HIGHWAY NAME": "401",
+   "YEAR BUILT": 2019.0,
+   "BCI": 64.03
+  },
+  {
+   "ID": "15X-0176/C0",
+   "STRUCTURE NAME": "MCCREARYS CREEK CULVERT",
+   "HIGHWAY NAME": "7",
+   "YEAR BUILT": 2016.0,
+   "BCI": 40.0
+  },
+  {
+   "ID": "21X-0610/C0",
+   "STRUCTURE NAME": "Service Road Butler/Proctor Creek Culvert",
+   "HIGHWAY NAME": "401",
+   "YEAR BUILT": 2016.0,
+   "BCI": 56.88
+  },
+  {
+   "ID": "26X-0118/B0",
+   "STRUCTURE NAME": "EELS (HAULTAIN) CREEK BRIDGE",
+   "HIGHWAY NAME": "28",
+   "YEAR BUILT": 2017.0,
+   "BCI": 64.8
+  },
+  {
+   "ID": "29X-0112/B0",
+   "STRUCTURE NAME": "CONSTANT CREEK BRIDGE",
+   "HIGHWAY NAME": "132",
+   "YEAR BUILT": 2020.0,
+   "BCI": 56.55
+  },
+  {
+   "ID": "31X-0211/B1",
+   "STRUCTURE NAME": "PITT STREET OVERPASS......EBL",
+   "HIGHWAY NAME": "401",
+   "YEAR BUILT": 2019.0,
+   "BCI": 54.78
+  },
+  {
+   "ID": "32X-0213/C0",
+   "STRUCTURE NAME": "500m W of River Rd",
+   "HIGHWAY NAME": "7",
+   "YEAR BUILT": 2018.0,
+   "BCI": 49.6
+  },
+  {
+   "ID": "38S-0171/C0",
+   "STRUCTURE NAME": "MARSHALL'S CREEK CULVERT",
+   "HIGHWAY NAME": "546",
+   "YEAR BUILT": 2019.0,
+   "BCI": 60.3
+  },
+  {
+   "ID": "38S-0243/C0",
+   "STRUCTURE NAME": "LAUZON CREEK CULVERT",
+   "HIGHWAY NAME": "17",
+   "YEAR BUILT": 2019.0,
+   "BCI": 59.7
+  },
+  {
+   "ID": "39E-0199/C0",
+   "STRUCTURE NAME": "SOUTH BRANCH LOUIS RIVER CULVERT",
+   "HIGHWAY NAME": "652",
+   "YEAR BUILT": 2019.0,
+   "BCI": 62.89
+  },
+  {
+   "ID": "39E-0200/C0",
+   "STRUCTURE NAME": "LOUIS RIVER CULVERT",
+   "HIGHWAY NAME": "652",
+   "YEAR BUILT": 2019.0,
+   "BCI": 60.59
+  },
+  {
+   "ID": "39W-0106/C0",
+   "STRUCTURE NAME": "CREEK CULVERT",
+   "HIGHWAY NAME": "11",
+   "YEAR BUILT": 2019.0,
+   "BCI": 54.4
+  },
+  {
+   "ID": "45X-0149/C0",
+   "STRUCTURE NAME": "DILKE CREEK CULVERT No. 2",
+   "HIGHWAY NAME": "11",
+   "YEAR BUILT": 2018.0,
+   "BCI": 28.5
+  },
+  {
+   "ID": "46X-0332/C0",
+   "STRUCTURE NAME": "BUTTONSHOE CREEK CULVERT",
+   "HIGHWAY NAME": "129",
+   "YEAR BUILT": 2019.0,
+   "BCI": 55.3
+  },
+  {
+   "ID": "48C-0007/B0",
+   "STRUCTURE NAME": "NIPIGON RIVER BRIDGE",
+   "HIGHWAY NAME": "11",
+   "YEAR BUILT": 2018.0,
+   "BCI": 39.64
+  }
+ ],
+ "bad_coords": 11,
+ "bands": {
+  "Good (70+)": 4254,
+  "Fair (60-70)": 628,
+  "Poor (<60)": 101
+ },
+ "bands_pct": {
+  "Good (70+)": 85.4,
+  "Fair (60-70)": 12.6,
+  "Poor (<60)": 2.0
+ },
+ "category": [
+  {
+   "CATEGORY": "Bridge",
+   "Fair (60-70)": 292,
+   "Good (70+)": 2635,
+   "Poor (<60)": 27
+  },
+  {
+   "CATEGORY": "Culvert",
+   "Fair (60-70)": 336,
+   "Good (70+)": 1619,
+   "Poor (<60)": 74
+  }
+ ],
+ "culvert_share_all": 40.7,
+ "culvert_share_poor": 73.3,
+ "tiers": {
+  "1 - Poor now": 101,
+  "2 - Projected poor by 2023": 52,
+  "3 - Fair and declining fast": 107,
+  "4 - Monitor": 4723
+ },
+ "projected_cross_60": {
+  "2020": 8,
+  "2021": 10,
+  "2022": 16,
+  "2023": 18,
+  "2024": 22,
+  "2025": 44,
+  "2026": 26,
+  "2027": 57,
+  "2028": 60,
+  "2029": 73,
+  "2030": 56
+ },
+ "proj_by_2025": 118,
+ "proj_by_2030": 390,
+ "median_slope": -0.29,
+ "n_with_trend": 3841,
+ "county_missing_pct": 36.2,
+ "inspection_gap": {
+  "last_inspected_2017_or_earlier": 138,
+  "by_category": {
+   "Culvert": 137,
+   "Bridge": 1
+  },
+  "missing_bci": 52
+ },
+ "stability_top50": {
+  "base": 49,
+  "condition_heavy": 43,
+  "trend_heavy": 40,
+  "size_heavy": 34,
+  "equal": 34
+ },
+ "robust_core": 21,
+ "weights": {
+  "base": [
+   0.5,
+   0.25,
+   0.15,
+   0.1
+  ],
+  "condition_heavy": [
+   0.7,
+   0.15,
+   0.1,
+   0.05
+  ],
+  "trend_heavy": [
+   0.35,
+   0.4,
+   0.15,
+   0.1
+  ],
+  "size_heavy": [
+   0.4,
+   0.2,
+   0.3,
+   0.1
+  ],
+  "equal": [
+   0.25,
+   0.25,
+   0.25,
+   0.25
+  ]
+ },
+ "deck_area_fair_poor_m2": 278422
+}
+   HIGHWAY NAME  structures  action  mean_bci                              regions  action_pct
+0            17         310      41      75.1  Eastern, Northeastern, Northwestern        13.2
+1           401         879      33      76.7               Central, Eastern, West         3.8
+2            11         432      26      80.0  Central, Northeastern, Northwestern         6.0
+3           417         241      18      76.3                              Eastern         7.5
+4             7         174      10      77.1               Central, Eastern, West         5.7
+5             3          72       8      74.4                        Central, West        11.1
+6           400         217       7      78.9                Central, Northeastern         3.2
+7            40          41       6      74.8                                 West        14.6
+8             6         155       4      75.6          Central, Northeastern, West         2.6
+9            21         100       4      76.3                                 West         4.0
+10          402         111       4      73.3                                 West         3.6
+11            1         249       4      77.1                              Central         1.6
+  age_2020     n  mean_bci  pct_poor_fair
+0     0-20  1382      89.5            0.9
+1    21-40   896      74.4            7.9
+2    41-60  1846      73.4           18.9
+3    61-80   539      72.1           31.7
+4      80+    86      68.9           44.2
+      rank                                       STRUCTURE NAME HIGHWAY NAME        COUNTY CATEGORY    BCI  slope_bci_per_yr                         tier  priority_score
+2564     1                               Grand River Bridge EBL          401      WATERLOO   Bridge  61.02         -1.427857   2 - Projected poor by 2023            92.0
+2565     2                               Grand River Bridge WBL          401      WATERLOO   Bridge  61.23         -1.314821   2 - Projected poor by 2023            91.6
+1459     3                    CULVERT - KRASNIK MUNICIPAL DRAIN          402     MIDDLESEX  Culvert  33.17         -2.777857                 1 - Poor now            90.3
+4270     4                                Burford Creek Culvert           94  Not recorded  Culvert  36.01         -3.047578                 1 - Poor now            90.3
+4495     5  AUX SAUBLES RIVER SNOWMOBILE TRAIL BRIDGE AT MASSEY           17       SUDBURY   Bridge  45.84         -2.574500                 1 - Poor now            90.3
+4707     6                               CALAMITY CREEK CULVERT           11  Not recorded  Culvert  44.90         -0.825714                 1 - Poor now            89.9
+3406     7              HIGHWAY 48 - LITTLE ROUGE CREEK CULVERT           48  Not recorded  Culvert  62.16         -1.711429   2 - Projected poor by 2023            89.7
+4698     8                                 BLANCHE RIVER BRIDGE           65   TIMISKAMING   Bridge  51.60         -4.300000                 1 - Poor now            89.3
+4872     9                              LITTLE PIC RIVER BRIDGE           17   THUNDER BAY   Bridge  62.60         -2.004054   2 - Projected poor by 2023            89.3
+199     10         EASTERN PARKWAY OPASS WBL Off-Ramp Structure          417      CARLETON   Bridge  65.11         -0.866429  3 - Fair and declining fast            89.1
+2461    11                           PITT STREET OVERPASS (WBL)          401  Not recorded   Bridge  58.34         -1.054286                 1 - Poor now            88.9
+4477    12                             CPR Overhead at Markstay           17       SUDBURY   Bridge  60.73         -0.786250   2 - Projected poor by 2023            88.7
+2454    13                                        HIGHWAY 31 UP          401  Not recorded   Bridge  56.31         -0.717857                 1 - Poor now            88.5
+4170    14                     C.N.R OVERHEAD AT CRANBERRY LAKE           69   PARRY SOUND   Bridge  67.20         -1.346786  3 - Fair and declining fast            88.2
+1366    15                            DORCHESTER ROAD UNDERPASS          401     MIDDLESEX   Bridge  55.75         -0.780144                 1 - Poor now            87.9

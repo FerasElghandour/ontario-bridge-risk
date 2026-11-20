@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ontario Bridge Repair Priorities</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Layout idea: an engineering field report. Summary first, then four findings, a map, the ranked list, method and limits. */
+:root{
+  --paper:#f3f5f7; --card:#ffffff; --ink:#18222e; --muted:#5a6878; --rule:#d9dfe6;
+  --accent:#e0661b; /* road-sign orange */
+  --good:#3f8f6b; --fair:#d9a01e; --poor:#c2413b; --watch:#7b5ea7;
+  --display:"IBM Plex Sans Condensed","Arial Narrow",system-ui,sans-serif;
+  --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){--paper:#11171e;--card:#18212b;--ink:#e6ebf0;--muted:#9aa8b6;--rule:#2b3643;--accent:#f08a45;--good:#5cb08a;--fair:#e6b443;--poor:#e0625b;--watch:#a38bd0;color-scheme:dark;}
+}
+:root[data-theme="dark"]{--paper:#11171e;--card:#18212b;--ink:#e6ebf0;--muted:#9aa8b6;--rule:#2b3643;--accent:#f08a45;--good:#5cb08a;--fair:#e6b443;--poor:#e0625b;--watch:#a38bd0;color-scheme:dark;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 16px/1.55 var(--body)}
+.wrap{max-width:1120px;margin:0 auto;padding:28px 20px 64px;display:grid;gap:28px}
+header{display:grid;gap:10px;border-top:6px solid var(--accent);padding-top:18px}
+.eyebrow{font:500 12px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+h1{font:700 clamp(30px,4.6vw,46px)/1.05 var(--display);margin:0;text-wrap:balance}
+h2{font:600 24px/1.15 var(--display);margin:0;text-wrap:balance}
+h3{font:600 17px/1.2 var(--display);margin:0}
+p{margin:0;max-width:68ch}
+.lede{font-size:18px;color:var(--ink)}
+.note{font-size:14px;color:var(--muted)}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
+.tile{background:var(--card);border:1px solid var(--rule);border-radius:6px;padding:14px 16px;display:grid;gap:4px;border-left:5px solid var(--rule)}
+.tile.poor{border-left-color:var(--poor)}.tile.fair{border-left-color:var(--fair)}.tile.watch{border-left-color:var(--watch)}.tile.good{border-left-color:var(--good)}.tile.acc{border-left-color:var(--accent)}
+.big{font:700 34px/1 var(--display);font-variant-numeric:tabular-nums}
+.tile .lbl{font-size:14px;color:var(--muted)}
+section{background:var(--card);border:1px solid var(--rule);border-radius:8px;padding:22px;display:grid;gap:14px}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+@media (max-width:760px){.grid2{grid-template-columns:1fr}}
+.finding{display:grid;gap:10px;align-content:start}
+.num{font-family:var(--mono);font-size:12px;color:var(--accent);font-weight:500}
+.chart{width:100%;overflow:visible}
+.chart text{fill:var(--muted);font:12px var(--body)}
+.chart .lab{fill:var(--ink);font-weight:500}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:13px;color:var(--muted)}
+.sw{display:inline-block;width:11px;height:11px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+.recs{display:grid;gap:12px;counter-reset:r;padding:0;margin:0;list-style:none}
+.recs li{display:grid;grid-template-columns:34px 1fr;gap:10px;align-items:start}
+.recs li::before{counter-increment:r;content:counter(r);font:700 18px/32px var(--display);text-align:center;background:var(--accent);color:#fff;border-radius:4px;height:32px}
+.recs b{font-weight:600}
+#map{width:100%;height:auto;display:block;background:var(--paper);border-radius:6px;border:1px solid var(--rule)}
+.controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+select,input{font:14px var(--body);padding:6px 8px;border:1px solid var(--rule);border-radius:4px;background:var(--card);color:var(--ink)}
+select:focus-visible,input:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.tablewrap{overflow-x:auto;max-height:560px;overflow-y:auto;border:1px solid var(--rule);border-radius:6px}
+table{border-collapse:collapse;width:100%;font-size:14px;font-variant-numeric:tabular-nums}
+th,td{padding:7px 10px;border-bottom:1px solid var(--rule);text-align:left;white-space:nowrap}
+th{position:sticky;top:0;background:var(--card);font:600 12px/1.2 var(--body);color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+td.r{text-align:right}
+.pill{display:inline-block;padding:2px 8px;border-radius:999px;font-size:12px;font-weight:600;color:#fff}
+.t1{background:var(--poor)}.t2{background:var(--accent)}.t3{background:var(--fair);color:#1b1b1b}.t4{background:var(--good)}
+.mono{font-family:var(--mono);font-size:12.5px}
+.tip{position:fixed;pointer-events:none;background:var(--ink);color:var(--paper);padding:6px 9px;border-radius:4px;font-size:12.5px;display:none;z-index:9;max-width:260px}
+details summary{cursor:pointer;font-weight:600}
+ul.plain{margin:0;padding-left:18px;display:grid;gap:6px;max-width:75ch}
+footer{font-size:13px;color:var(--muted);display:grid;gap:4px}
+a{color:var(--accent)}
+@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="eyebrow">Ontario Ministry of Transportation open data · 5,053 provincial structures · inspections 2000–2020</div>
+  <h1>Which Ontario provincial bridges to fix first</h1>
+  <p class="lede">An analysis of every provincially owned bridge and culvert in Ontario's open bridge-condition data. It ranks where repair money does the most good, shows where the backlog is building up, and tests whether past deterioration predicts future condition.</p>
+  <p class="note">The Bridge Condition Index (BCI) measures state of repair from 0 to 100. MTO treats 70+ as good, 60–70 as fair (the ideal time to repair) and under 60 as poor (work usually within a year). BCI is not a safety rating. The latest public file covers inspections to the end of 2020; current conditions will differ.</p>
+</header>
+
+<div class="tiles" id="tiles"></div>
+
+<section id="recs">
+  <h2>What I would tell the Ministry</h2>
+  <ol class="recs" id="reclist"></ol>
+</section>
+
+<div class="grid2">
+  <section class="finding" id="f-region">
+    <div class="num">FINDING 1</div>
+    <h3 id="f1h"></h3>
+    <p class="note" id="f1p"></p>
+    <svg class="chart" id="c-region"></svg>
+    <div class="legend"><span><i class="sw" style="background:var(--good)"></i>Good 70+</span><span><i class="sw" style="background:var(--fair)"></i>Fair 60–70</span><span><i class="sw" style="background:var(--poor)"></i>Poor &lt;60</span></div>
+  </section>
+  <section class="finding" id="f-culvert">
+    <div class="num">FINDING 2</div>
+    <h3 id="f2h"></h3>
+    <p class="note" id="f2p"></p>
+    <svg class="chart" id="c-cat"></svg>
+  </section>
+  <section class="finding" id="f-age">
+    <div class="num">FINDING 3</div>
+    <h3 id="f3h"></h3>
+    <p class="note" id="f3p"></p>
+    <svg class="chart" id="c-age"></svg>
+  </section>
+  <section class="finding" id="f-pipe">
+    <div class="num">FINDING 4</div>
+    <h3 id="f4h"></h3>
+    <p class="note" id="f4p"></p>
+    <svg class="chart" id="c-pipe"></svg>
+  </section>
+</div>
+
+<section id="corridors">
+  <h2>Corridors carrying the most repair need</h2>
+  <p class="note">Structures that are poor now, projected to fall below 60 by 2023, or fair and losing more than 0.5 BCI points a year. Highways with at least 20 structures.</p>
+  <svg class="chart" id="c-hwy"></svg>
+</section>
+
+<section id="mapsec">
+  <h2>Where the priority structures are</h2>
+  <div class="legend"><span><i class="sw" style="background:var(--poor)"></i>Poor now</span><span><i class="sw" style="background:var(--accent)"></i>Projected poor by 2023</span><span><i class="sw" style="background:var(--fair)"></i>Fair, declining fast</span><span><i class="sw" style="background:var(--rule)"></i>Monitor</span></div>
+  <canvas id="map" width="1080" height="640" aria-label="Map of Ontario provincial bridges coloured by priority tier"></canvas>
+  <p class="note">Each dot is one structure, placed by its recorded latitude and longitude. Point at a dot for its name, BCI and rank.</p>
+</section>
+
+<section id="list">
+  <h2>Ranked repair list</h2>
+  <p class="note" id="listnote"></p>
+  <div class="controls">
+    <label for="fRegion">Region</label><select id="fRegion"><option value="">All</option></select>
+    <label for="fTier">Tier</label><select id="fTier"><option value="">All</option></select>
+    <label for="fText">Search</label><input id="fText" type="search" placeholder="Name, highway or ID">
+  </div>
+  <div class="tablewrap"><table id="tbl"><thead><tr><th>Rank</th><th>Structure</th><th>Hwy</th><th>Region</th><th>Type</th><th>Built</th><th>BCI 2020</th><th>BCI / yr</th><th>Below 60 by</th><th>Tier</th><th>Score</th></tr></thead><tbody></tbody></table></div>
+</section>
+
+<section id="method">
+  <h2>How the ranking works, and how far to trust it</h2>
+  <ul class="plain" id="methodlist"></ul>
+  <details><summary>Limits of this analysis</summary>
+    <ul class="plain" id="limits" style="margin-top:10px"></ul>
+  </details>
+</section>
+
+<footer>
+  <div>Analysis by Feras Elghandour. Data: Ontario Ministry of Transportation, <a href="https://data.ontario.ca/dataset/bridge-conditions">Bridge conditions</a>, Open Government Licence – Ontario (file dated June 2021, inspections to December 2020). BCI bands from MTO's published guidance.</div>
+  <div>Code, data notes and the full ranked list are in the project repository.</div>
+</footer>
+</div>
+<div class="tip" id="tip"></div>
+<script>
+const F = __FINDINGS__;
+const B = __BACKTEST__;
+const fmt = n => n.toLocaleString("en-CA");
+const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const el = id => document.getElementById(id);
+const NS = "http://www.w3.org/2000/svg";
+function s(tag, attrs, parent, text){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(text!=null)e.textContent=text;parent&&parent.appendChild(e);return e;}
+
+const poor=F.bands["Poor (<60)"], fair=F.bands["Fair (60-70)"], good=F.bands["Good (70+)"];
+const t=F.tiers, t1=t["1 - Poor now"], t2=t["2 - Projected poor by 2023"], t3=t["3 - Fair and declining fast"];
+const reg = Object.fromEntries(F.region.map(r=>[r.REGION,r]));
+const regc = Object.fromEntries(F.region_counts.map(r=>[r.REGION,r]));
+const hw = F.highway_hotspots;
+const age = F.age;
+
+// Tiles
+[["poor",fmt(poor),`rated poor (${F.bands_pct["Poor (<60)"]}%): work usually due within a year`],
+ ["fair",fmt(fair),`rated fair (${F.bands_pct["Fair (60-70)"]}%): the cheapest window to repair`],
+ ["watch",fmt(t2+t3),"not yet poor, but projected below 60 by 2023 or declining fast"],
+ ["acc",fmt(F.proj_by_2025),"more projected to cross below 60 between 2020 and 2025 if left untouched"]]
+ .forEach(([c,n,l])=>{const d=document.createElement("div");d.className="tile "+c;d.innerHTML=`<div class="big"></div><div class="lbl"></div>`;d.children[0].textContent=n;d.children[1].textContent=l;el("tiles").appendChild(d);});
+
+// Recommendations
+const nw=reg["Northwestern"], ce=reg["Central"];
+const recs=[
+ [`Rebalance capital toward the north.`, ` Northwestern Ontario has ${nw["Poor (<60)"]}% of its structures in poor condition against ${ce["Poor (<60)"]}% in Central Region. Highway 17 alone has ${hw[0].action} structures that need action. A province-wide condition target can be met on average while northern corridors fall behind.`],
+ [`Give culverts their own program.`, ` Culverts are ${F.culvert_share_all}% of provincial structures but ${F.culvert_share_poor}% of the poor ones, and ${F.inspection_gap.by_category.Culvert} culverts show a last inspection in 2017 or earlier. A dedicated inspection and replacement stream would stop them competing with high-profile bridges for the same budget.`],
+ [`Fund the fair window before it closes.`, ` ${t2} structures were projected to fall below 60 by 2023 and ${t3} more were fair and losing over half a point a year. MTO's own guidance says the 60–70 band is the most economical time to repair. Treating these now costs less than replacing them later.`],
+ [`Publish current data, with traffic and work history.`, ` The open file stops at 2020, ${F.county_missing_pct}% of records have no county, and there is no traffic volume or completed-work record. Adding those would let anyone rank by consequence and check that flagged structures were fixed.`]
+];
+recs.forEach(([b,tx])=>{const li=document.createElement("li");const d=document.createElement("div");const bb=document.createElement("b");bb.textContent=b;d.appendChild(bb);d.appendChild(document.createTextNode(tx));li.appendChild(d);el("reclist").appendChild(li);});
+
+// Finding texts
+el("f1h").textContent=`The north is falling behind: ${nw["Poor (<60)"]}% poor in Northwestern vs ${ce["Poor (<60)"]}% in Central`;
+el("f1p").textContent=`Share of each region's rated structures by condition band. Northwestern and Eastern regions also carry the largest fair shares, which become tomorrow's poor structures.`;
+el("f2h").textContent=`Culverts are ${F.culvert_share_all}% of structures but ${F.culvert_share_poor}% of poor ones`;
+el("f2p").textContent=`Count of structures by type and condition. Culverts get less attention than bridges, and their inspection dates are the most out of date in the file.`;
+const a80=age[age.length-1], a0=age[0];
+el("f3h").textContent=`Repair need climbs with age: ${a0.pct_poor_fair}% fair or poor under 20 years, ${a80.pct_poor_fair}% past 80`;
+el("f3p").textContent=`Share of structures rated fair or poor, by age in 2020. A large group built in the 1950s–1970s is now 41–80 years old, so the backlog will keep growing.`;
+el("f4h").textContent=`${fmt(F.proj_by_2030)} more structures projected below 60 by 2030 at current deterioration rates`;
+el("f4p").textContent=`Year each structure's own BCI trend reaches 60, for structures still at or above 60 in 2020. This is a no-intervention projection: repairs since 2020 will have moved some off this path.`;
+
+// Chart helpers
+function hbars(svgId, rows, opts){
+  const svg=el(svgId); const W=svg.parentElement.clientWidth-44||520; const rowH=opts.rowH||30, lw=opts.labelW||110, H=rows.length*rowH+24;
+  svg.setAttribute("viewBox",`0 0 ${W} ${H}`); svg.innerHTML="";
+  const max=opts.max||Math.max(...rows.map(r=>r.segs.reduce((a,b)=>a+b.v,0)));
+  const sc=v=>v/max*(W-lw-(opts.endW||110));
+  for(let g=0;g<=4;g++){const x=lw+sc(max*g/4);s("line",{x1:x,x2:x,y1:0,y2:H-20,stroke:css("--rule")},svg);s("text",{x:x,y:H-6,"text-anchor":"middle"},svg,opts.tick?opts.tick(max*g/4):Math.round(max*g/4));}
+  rows.forEach((r,i)=>{const y=i*rowH+4;s("text",{x:lw-8,y:y+rowH/2,"text-anchor":"end","dominant-baseline":"middle",class:"lab"},svg,r.label);
+    let x=lw; r.segs.forEach(sg=>{const w=sc(sg.v);const rect=s("rect",{x:x,y:y+4,width:Math.max(w,0),height:rowH-10,fill:sg.c,rx:2},svg);tipOn(rect,sg.tip);x+=w;});
+    if(r.end!=null)s("text",{x:x+6,y:y+rowH/2,"dominant-baseline":"middle",class:"lab"},svg,r.end);});
+}
+function vbars(svgId, rows, opts){
+  const svg=el(svgId); const W=svg.parentElement.clientWidth-44||520, H=230, pl=36,pb=28;
+  svg.setAttribute("viewBox",`0 0 ${W} ${H}`); svg.innerHTML="";
+  const max=opts.max||Math.max(...rows.map(r=>r.v)); const bw=(W-pl)/rows.length;
+  const sy=v=>(H-pb)-(v/max)*(H-pb-14);
+  for(let g=0;g<=4;g++){const v=max*g/4,y=sy(v);s("line",{x1:pl,x2:W,y1:y,y2:y,stroke:css("--rule")},svg);s("text",{x:pl-6,y:y,"text-anchor":"end","dominant-baseline":"middle"},svg,opts.tick?opts.tick(v):Math.round(v));}
+  rows.forEach((r,i)=>{const x=pl+i*bw+bw*0.15,y=sy(r.v);const rect=s("rect",{x:x,y:y,width:bw*0.7,height:(H-pb)-y,fill:r.c||css("--accent"),rx:2},svg);tipOn(rect,r.tip);
+    s("text",{x:x+bw*0.35,y:H-10,"text-anchor":"middle"},svg,r.label);});
+}
+const tip=el("tip");
+function tipOn(node,text){if(!text)return;node.addEventListener("pointermove",e=>{tip.textContent=text;tip.style.display="block";const x=Math.min(e.clientX+12,window.innerWidth-270);tip.style.left=x+"px";tip.style.top=(e.clientY+12)+"px";});node.addEventListener("pointerleave",()=>tip.style.display="none");}
+
+function drawAll(){
+  const G=css("--good"),Fa=css("--fair"),P=css("--poor"),A=css("--accent");
+  const order=["Central","West","Eastern","Northeastern","Northwestern"];
+  hbars("c-region",order.map(k=>{const r=reg[k],c=regc[k];return{label:k,segs:[
+    {v:r["Good (70+)"],c:G,tip:`${k}: ${r["Good (70+)"]}% good (${fmt(c["Good (70+)"])})`},
+    {v:r["Fair (60-70)"],c:Fa,tip:`${k}: ${r["Fair (60-70)"]}% fair (${fmt(c["Fair (60-70)"])})`},
+    {v:r["Poor (<60)"],c:P,tip:`${k}: ${r["Poor (<60)"]}% poor (${fmt(c["Poor (<60)"])})`}],end:`${r["Poor (<60)"]}% poor`};}),{max:100,labelW:104,tick:v=>v+"%"});
+  hbars("c-cat",F.category.map(r=>({label:r.CATEGORY+"s",segs:[
+    {v:r["Good (70+)"],c:G,tip:`${r.CATEGORY}s good: ${fmt(r["Good (70+)"])}`},
+    {v:r["Fair (60-70)"],c:Fa,tip:`${r.CATEGORY}s fair: ${fmt(r["Fair (60-70)"])}`},
+    {v:r["Poor (<60)"],c:P,tip:`${r.CATEGORY}s poor: ${fmt(r["Poor (<60)"])}`}],end:`${r["Poor (<60)"]} poor`})),{labelW:80,rowH:40,tick:v=>fmt(Math.round(v))});
+  vbars("c-age",age.map(r=>({label:r.age_2020+" yrs",v:r.pct_poor_fair,c:r.pct_poor_fair>25?P:(r.pct_poor_fair>10?Fa:G),tip:`${r.age_2020} years: ${r.pct_poor_fair}% fair or poor of ${fmt(r.n)} structures, mean BCI ${r.mean_bci}`})),{max:50,tick:v=>v+"%"});
+  const pj=Object.entries(F.projected_cross_60);
+  vbars("c-pipe",pj.map(([y,v])=>({label:"'"+String(y).slice(2),v:v,c:+y<=2023?A:css("--fair"),tip:`${y}: ${v} structures projected to reach BCI 60`})),{});
+  hbars("c-hwy",hw.map(h=>({label:"Hwy "+h["HIGHWAY NAME"],segs:[{v:h.action,c:A,tip:`Highway ${h["HIGHWAY NAME"]}: ${h.action} of ${h.structures} structures need action (${h.action_pct}%) · ${h.regions}`}],end:`${h.action} of ${fmt(h.structures)} (${h.action_pct}%)`})),{labelW:70,rowH:26});
+  drawMap();
+}
+
+// Map
+const pts=F.map_points; // [lat, lon, bci, tierDigit, name, rank]
+let proj=null;
+function drawMap(){
+  const cv=el("map"); const W=cv.parentElement.clientWidth-44; const dpr=window.devicePixelRatio||1;
+  const q=(a,f)=>{const b=[...a].sort((x,y)=>x-y);return b[Math.floor(f*(b.length-1))];};
+  const lats=pts.map(p=>p[0]), lons=pts.map(p=>p[1]);
+  const la0=q(lats,0.002)-0.3,la1=q(lats,0.995)+0.3,lo0=q(lons,0.002)-0.3,lo1=q(lons,0.998)+0.3;
+  const k=Math.cos((la0+la1)/2*Math.PI/180); const aspect=((la1-la0))/((lo1-lo0)*k);
+  const H=Math.round(Math.min(W*aspect, W*0.72)); cv.style.width=W+"px"; cv.style.height=H+"px"; cv.width=W*dpr; cv.height=H*dpr;
+  const ctx=cv.getContext("2d"); ctx.scale(dpr,dpr); ctx.clearRect(0,0,W,H); ctx.save(); ctx.beginPath(); ctx.rect(0,0,W,H); ctx.clip();
+  const pad=12; proj=p=>[pad+(p[1]-lo0)/(lo1-lo0)*(W-2*pad), pad+(la1-p[0])/(la1-la0)*(H-2*pad)];
+  const col={"1":css("--poor"),"2":css("--accent"),"3":css("--fair"),"4":css("--rule")};
+  ["4","3","2","1"].forEach(tr=>{ctx.fillStyle=col[tr];pts.forEach(p=>{if(p[3]!==tr)return;const [x,y]=proj(p);ctx.beginPath();ctx.arc(x,y,tr==="4"?1.8:3.6,0,7);ctx.fill();});});
+  ctx.fillStyle=css("--muted"); ctx.font="12px "+css("--body");
+  [["Toronto",43.65,-79.38],["Ottawa",45.42,-75.70],["Sudbury",46.49,-80.99],["Thunder Bay",48.38,-89.25],["Kenora",49.77,-94.49],["Windsor",42.31,-83.04]].forEach(([n,a,b])=>{const [x,y]=proj([a,b]);ctx.fillText(n,x+5,y-5);});
+}
+el("map").addEventListener("pointermove",e=>{if(!proj)return;const r=e.target.getBoundingClientRect();const mx=e.clientX-r.left,my=e.clientY-r.top;let best=null,bd=64;
+  for(const p of pts){const [x,y]=proj(p);const d=(x-mx)**2+(y-my)**2;if(d<bd&&(p[3]!=="4"||!best)){bd=d;best=p;}}
+  if(best){tip.textContent=`${best[4]} · BCI ${best[2]} · rank ${best[5]}`;tip.style.display="block";tip.style.left=Math.min(e.clientX+12,window.innerWidth-270)+"px";tip.style.top=(e.clientY+12)+"px";}else tip.style.display="none";});
+el("map").addEventListener("pointerleave",()=>tip.style.display="none");
+
+// Table
+el("listnote").textContent=`Top 200 of ${fmt(F.n_with_bci)} ranked structures by priority score. ★ marks the ${F.robust_core} structures that stay in the top 50 under all five weightings tested.`;
+const rows=F.top200; const tiers=[...new Set(rows.map(r=>r.tier))].sort(); const regions=[...new Set(rows.map(r=>r.REGION))].sort();
+regions.forEach(r=>{const o=document.createElement("option");o.value=o.textContent=r;el("fRegion").appendChild(o);});
+tiers.forEach(r=>{const o=document.createElement("option");o.value=r;o.textContent=r.slice(4);el("fTier").appendChild(o);});
+function renderTable(){
+  const R=el("fRegion").value,T=el("fTier").value,q=el("fText").value.toLowerCase();
+  const tb=el("tbl").tBodies[0]; tb.replaceChildren();
+  rows.filter(r=>(!R||r.REGION===R)&&(!T||r.tier===T)&&(!q||(`${r["STRUCTURE NAME"]} ${r["HIGHWAY NAME"]} ${r.ID}`).toLowerCase().includes(q))).forEach(r=>{
+    const tr=document.createElement("tr");
+    const cells=[[r.rank+(r.robust_top50?" ★":""),"r"],[r["STRUCTURE NAME"]],[r["HIGHWAY NAME"]],[r.REGION],[r.CATEGORY],[r["YEAR BUILT"]??"–","r"],[r.BCI?.toFixed(1),"r"],[r.slope_bci_per_yr==null?"–":r.slope_bci_per_yr.toFixed(2),"r"],[r.proj_year_below_60??(r.BCI<60?"now":"–"),"r"],[null],[r.priority_score.toFixed(1),"r"]];
+    cells.forEach(([v,c],i)=>{const td=document.createElement("td");if(c)td.className=c;if(i===9){const sp=document.createElement("span");sp.className="pill t"+r.tier[0];sp.textContent=r.tier.slice(4);td.appendChild(sp);}else td.textContent=v;if(i===1)td.title=r.ID;tr.appendChild(td);});
+    tb.appendChild(tr);});
+}
+["fRegion","fTier","fText"].forEach(id=>el(id).addEventListener("input",renderTable));
+renderTable();
+
+// Method
+const w=F.weights.base;
+[ `Condition need (${w[0]*100}%): how low the 2020 BCI is relative to all other structures.`,
+  `Deterioration speed (${w[1]*100}%): each structure's BCI trend per year, fitted on inspections since the later of 2008 and its last major rehabilitation. A jump of more than 5 points is treated as a repair and the trend restarts after it. ${fmt(F.n_with_trend)} structures had enough inspections for a trend; the rest use the median of ${F.median_slope} points a year.`,
+  `Size (${w[2]*100}%): deck or culvert area, as a stand-in for replacement cost and the consequence of closure. The open data has no traffic counts.`,
+  `Time since major work (${w[3]*100}%): years since construction or the last major rehabilitation.`,
+  `Each factor is converted to a percentile so no single unit dominates. Tiers come from the rules alone: poor now; projected below 60 by 2023; fair and losing more than 0.5 points a year.`,
+  `Robustness: under four alternative weightings the top 50 kept ${Math.min(...Object.entries(F.stability_top50).filter(([k])=>k!=="base").map(([,v])=>v))}–${Math.max(...Object.entries(F.stability_top50).filter(([k])=>k!=="base").map(([,v])=>v))} of the same structures, and ${F.robust_core} appear in every version. Those are the safest calls.`,
+  `Backtest: using only inspections up to 2016, the trend model and a condition-only rule each flagged ${B.trend_model.flagged} structures; both caught ${B.trend_model.correct} of the ${B.became_poor_by_2020} that actually fell below 60 by 2020. The trend did not pick better structures than current condition did, but it forecast 2020 BCI within a median ${B.mae_bci_2020} points. So use condition to choose and trends to size the coming workload.`
+].forEach(x=>{const li=document.createElement("li");li.textContent=x;el("methodlist").appendChild(li);});
+[ `BCI reflects state of repair and remaining economic value. It does not measure safety or load capacity.`,
+  `The public file was last updated in June 2021. Many structures listed here will have been repaired or replaced since; check any structure against MTO's current records before acting.`,
+  `Projections are straight-line extrapolations of each structure's own history with no repairs assumed. Real deterioration is not linear, and many flagged structures were fixed, which is why the backtest's precision is low.`,
+  `Size stands in for consequence because the open data lacks traffic volume, detour length and freight use.`,
+  `${F.data_conflicts.length} records list a build year of 2016 or later but a BCI under 65, which most likely mixes a replacement's build year with the old structure's inspections (for example ${F.data_conflicts.map(d=>d['STRUCTURE NAME']).filter(n=>/NIPIGON|PITT/.test(n)).join(' and ')||F.data_conflicts[0]['STRUCTURE NAME']}). They are held out of the ranking for review, and ${F.bad_coords} records with missing or zero coordinates are left off the map.`,
+  `${F.county_missing_pct}% of records have no county, so the corridor view uses highway numbers instead.`,
+  `${F.inspection_gap.last_inspected_2017_or_earlier} structures show a last inspection in 2017 or earlier. That may mean overdue inspections or dates not updated in the export.`
+].forEach(x=>{const li=document.createElement("li");li.textContent=x;el("limits").appendChild(li);});
+
+drawAll();
+let rt; window.addEventListener("resize",()=>{clearTimeout(rt);rt=setTimeout(drawAll,150);});
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change",drawAll);
+new MutationObserver(drawAll).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
+</script>
+</body>
+</html>
